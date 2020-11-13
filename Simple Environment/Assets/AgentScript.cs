@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
-using System.Security.Cryptography;
-using System.Collections.Specialized;
+using System.Collections;
 using Unity.MLAgents.Actuators;
 
 public class AgentScript : Agent
@@ -13,29 +12,29 @@ public class AgentScript : Agent
 
     //game objects to find physics objects in environment
     public GameObject target;
-    public GameObject platform;
+    public GameObject ground;
     public GameObject agent;
 
-    //Variable to get the area of the platform object
+    [HideInInspector]
     public Bounds areaBounds;
+    PushBlockSettings m_PushBlockSettings;
+
 
     //Academy
     EnvironmentParameters defaultParams;
 
-    //WHta should happens when an episode begins
-    public override void OnEpisodeBegin()
+
+    public void HitObject()
     {
-        //reset the agent
-        //velocity of agent
-        agentBodyRB.velocity = Vector3.zero;
-        agentBodyRB.angularVelocity = Vector3.zero;
+        // We use a reward of 5.
+        AddReward(5f);
 
-        //start position
-        agent.transform.position = new Vector3(-7,0.625f,0);
+        // By marking an agent as done AgentReset() will be called automatically.
+        EndEpisode();
 
-        //Move target to new position
-        target.transform.position = GetRandomSpawnPos();
+        Debug.Log("Agent touched block");
     }
+
 
     public Vector3 GetRandomSpawnPos()
     {
@@ -48,7 +47,7 @@ public class AgentScript : Agent
 
             var randomPosZ = Random.Range(-areaBounds.extents.z * Random.Range(0.1f, 0.9f),
                 areaBounds.extents.z * Random.Range(0.1f, 0.9f));
-            randomSpawnPos = platform.transform.position + new Vector3(randomPosX , 1.35f, randomPosZ);
+            randomSpawnPos = ground.transform.position + new Vector3(randomPosX , 1.35f, randomPosZ);
             if (Physics.CheckBox(randomSpawnPos, new Vector3(2.5f, 0.01f, 2.5f)) == false)
             {
                 foundNewSpawnLocation = true;
@@ -58,41 +57,40 @@ public class AgentScript : Agent
     }
 
 
-
-
-   
-
-    public override void OnActionReceived(ActionBuffers actionBuffers)
+    public override void Initialize()
     {
-        MoveAgent(actionBuffers.DiscreteActions);
+        agentBodyRB = GetComponent<Rigidbody>();
+        targetRB = target.GetComponent<Rigidbody>();
+        areaBounds = ground.GetComponent<Collider>().bounds;
+
+        defaultParams = Academy.Instance.EnvironmentParameters;
+        Debug.Log("Initial");
+    }
+    
+    //Observations needed by agent:
+    //Position of the object
+    //Position of the agent
+
+    public override void OnActionReceived(float[] vectorAction)
+    {
+        MoveAgent(vectorAction);
         AddReward(-1f / MaxStep);
+        Debug.Log("Action Received");
 
-
-        if (agent.transform.position.y < 0)
+        if(transform.position.y < 0)
         {
+            Debug.Log("Fell");
+            AddReward(-1f);
             EndEpisode();
         }
-        Debug.Log("Action Rece");
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if(gameObject.CompareTag("Target"))
-        {
-            AddReward(5f);
-            Debug.Log("Action coll");
-            EndEpisode();
-        }
-
-
-    }
-
-    public void MoveAgent(ActionSegment<int> act)
+    public void MoveAgent(float[] act)
     {
         var dirToGo = Vector3.zero;
         var rotateDir = Vector3.zero;
 
-        var action = act[0];
+        var action = Mathf.FloorToInt(act[0]);
 
         switch (action)
         {
@@ -116,44 +114,56 @@ public class AgentScript : Agent
                 break;
         }
         transform.Rotate(rotateDir, Time.fixedDeltaTime * 200f);
-        agentBodyRB.AddForce(dirToGo * 10f,
+        agentBodyRB.AddForce(dirToGo * 2f,
             ForceMode.VelocityChange);
-
     }
 
-    public override void Initialize()
+    public override void Heuristic(float[] actionsOut)
     {
-        agentBodyRB = agent.GetComponent<Rigidbody>();
-        targetRB = target.GetComponent<Rigidbody>();
-        areaBounds = platform.GetComponent<Collider>().bounds;
-
-        defaultParams = Academy.Instance.EnvironmentParameters;
-    }
-
-
-
-    public override void Heuristic(in ActionBuffers actionsOut)
-    {
-        var discreteActionsOut = actionsOut.DiscreteActions;
-        discreteActionsOut[0] = 0;
+        actionsOut[0] = 0;
         if (Input.GetKey(KeyCode.D))
         {
-            discreteActionsOut[0] = 3;
+            actionsOut[0] = 3;
         }
         else if (Input.GetKey(KeyCode.W))
         {
-            discreteActionsOut[0] = 1;
+            actionsOut[0] = 1;
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            discreteActionsOut[0] = 4;
+            actionsOut[0] = 4;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            discreteActionsOut[0] = 2;
+            actionsOut[0] = 2;
         }
-
-        Debug.Log("Heuristic");
     }
+
+
+    //What should happens when an episode begins
+    public override void OnEpisodeBegin()
+    {
+        Debug.Log("Entered Episode");
+        //reset the agent
+        //velocity of agent
+        agentBodyRB.velocity = Vector3.zero;
+        agentBodyRB.angularVelocity = Vector3.zero;
+        agent.transform.eulerAngles = new Vector3(
+            agent.transform.eulerAngles.x,
+            agent.transform.eulerAngles.y,
+            agent.transform.eulerAngles.z
+        );
+
+        //start position
+        agent.transform.position = new Vector3(-7, 0.625f, 0);
+
+        //Move target to new position
+        target.transform.position = new Vector3(6.43f, 1.35f, 0);
+    }
+
+
+
+
+
 
 }
