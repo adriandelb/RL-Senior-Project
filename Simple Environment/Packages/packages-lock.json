@@ -56,7 +56,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ml-agents": {
-      "version": "file:C:/Users/Adrian/Documents/School/College/Senior_Design/ml-agents-release_7/ml-agents-release_7/com.unity.ml-agents",
+      "version": "file:/Users/ep/Documents/UTRGV/2020_FALL/Senior_project/ml-agents-release_7/com.unity.ml-agents",
       "depth": 0,
       "source": "local",
       "dependencies": {
