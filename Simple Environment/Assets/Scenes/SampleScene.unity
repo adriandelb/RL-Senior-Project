@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 454951000}
   - component: {fileID: 454950999}
   - component: {fileID: 454951003}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Ground
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -418,7 +418,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 50
+  MaxStep: 5000
   target: {fileID: 2101174942}
   ground: {fileID: 454950998}
   agent: {fileID: 1638280352}
@@ -508,7 +508,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1638280352}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -7, y: 0.625, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -530,9 +530,9 @@ MonoBehaviour:
   m_BrainParameters:
     VectorObservationSize: 0
     NumStackedVectorObservations: 1
-    VectorActionSize: 02000000
+    VectorActionSize: 07000000
     VectorActionDescriptions: []
-    VectorActionSpaceType: 1
+    VectorActionSpaceType: 0
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
@@ -702,7 +702,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2101174942}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab8410057491a724486067ee28f4b9fd, type: 3}
+  m_Script: {fileID: 11500000, guid: b2f42a5849883d943a3b498e38e67676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}

@@ -66,18 +66,18 @@ public class AgentScript : Agent
         defaultParams = Academy.Instance.EnvironmentParameters;
         Debug.Log("Initial");
     }
-    
+
     //Observations needed by agent:
     //Position of the object
     //Position of the agent
 
-    public override void OnActionReceived(float[] vectorAction)
+    public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        MoveAgent(vectorAction);
+        MoveAgent(actionBuffers.DiscreteActions);
         AddReward(-1f / MaxStep);
         Debug.Log("Action Received");
 
-        if(transform.position.y < 0)
+        if (transform.position.y < 0)
         {
             Debug.Log("Fell");
             AddReward(-1f);
@@ -85,13 +85,16 @@ public class AgentScript : Agent
         }
     }
 
-    public void MoveAgent(float[] act)
+    private void checkPosition()
+    {
+        Debug.DrawRay(transform.position, (ground.transform.position - transform.position), Color.red, 5f);   
+    }
+    public void MoveAgent(ActionSegment<int> act)
     {
         var dirToGo = Vector3.zero;
         var rotateDir = Vector3.zero;
 
-        var action = Mathf.FloorToInt(act[0]);
-
+        var action = act[0];
         switch (action)
         {
             case 1:
@@ -118,24 +121,25 @@ public class AgentScript : Agent
             ForceMode.VelocityChange);
     }
 
-    public override void Heuristic(float[] actionsOut)
+    public override void Heuristic(in ActionBuffers actionsOut)
     {
-        actionsOut[0] = 0;
+        var discreteActionsOut = actionsOut.DiscreteActions;
+        discreteActionsOut[0] = 0;
         if (Input.GetKey(KeyCode.D))
         {
-            actionsOut[0] = 3;
+            discreteActionsOut[0] = 3;
         }
         else if (Input.GetKey(KeyCode.W))
         {
-            actionsOut[0] = 1;
+            discreteActionsOut[0] = 1;
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            actionsOut[0] = 4;
+            discreteActionsOut[0] = 4;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            actionsOut[0] = 2;
+            discreteActionsOut[0] = 2;
         }
     }
 
@@ -148,17 +152,13 @@ public class AgentScript : Agent
         //velocity of agent
         agentBodyRB.velocity = Vector3.zero;
         agentBodyRB.angularVelocity = Vector3.zero;
-        agent.transform.eulerAngles = new Vector3(
-            agent.transform.eulerAngles.x,
-            agent.transform.eulerAngles.y,
-            agent.transform.eulerAngles.z
-        );
+        agent.transform.rotation = agent.transform.rotation * Quaternion.Euler(0, 0, 0);
 
         //start position
-        agent.transform.position = new Vector3(-7, 0.625f, 0);
+        agent.transform.localPosition = new Vector3(-7, 0.625f, 0);
 
         //Move target to new position
-        target.transform.position = new Vector3(6.43f, 1.35f, 0);
+        target.transform.localPosition = new Vector3(6.43f, 1.35f, 0);
     }
 
 
