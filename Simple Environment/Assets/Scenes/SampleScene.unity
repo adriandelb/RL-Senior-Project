@@ -535,7 +535,7 @@ MonoBehaviour:
     VectorActionSpaceType: 0
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 0
+  m_BehaviorType: 1
   m_BehaviorName: AgentBehavior
   TeamId: 0
   m_UseChildSensors: 1
@@ -705,3 +705,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2f42a5849883d943a3b498e38e67676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 1638280353}

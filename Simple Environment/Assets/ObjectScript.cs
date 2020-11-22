@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class ObjectScript : MonoBehaviour
 {
-    private AgentScript agent;
+    public AgentScript agent;
     void OnCollisionEnter(Collision col)
     {
-        agent = FindObjectOfType<AgentScript>();
         if (col.gameObject.CompareTag("Agent"))
         {
             agent.HitObject();
