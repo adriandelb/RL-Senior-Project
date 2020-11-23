@@ -8,15 +8,16 @@ public class AgentScript : Agent
 {
     //Rigidbodies to control physics
     Rigidbody agentBodyRB;
-    Rigidbody targetRB;
 
     //game objects to find physics objects in environment
     public GameObject target;
     public GameObject ground;
+    public GameObject ObjectSpawn;
     public GameObject agent;
 
     [HideInInspector]
     public Bounds areaBounds;
+    public Bounds areaBoundsObject;
     PushBlockSettings m_PushBlockSettings;
 
 
@@ -55,14 +56,33 @@ public class AgentScript : Agent
         }
         return randomSpawnPos;
     }
+    public Vector3 GetRandomSpawnPosObject()
+    {
+        var foundNewSpawnLocation = false;
+        var randomSpawnPos = Vector3.zero;
+        while (foundNewSpawnLocation == false)
+        {
+            var randomPosX = Random.Range((-areaBoundsObject.extents.x* 20) * Random.Range(0.1f, 0.9f),
+                (areaBoundsObject.extents.x * 20)* Random.Range(0.1f, 0.9f));
+
+            var randomPosZ = Random.Range((-areaBoundsObject.extents.z * 20) * Random.Range(0.1f, 0.9f),
+                (areaBoundsObject.extents.z * 20)* Random.Range(0.1f, 0.9f));
+            randomSpawnPos = ObjectSpawn.transform.localPosition + new Vector3(randomPosX, 1.35f, randomPosZ);
+            if (Physics.CheckBox(randomSpawnPos, new Vector3(2.5f, 0.01f, 2.5f)) == false)
+            {
+                foundNewSpawnLocation = true;
+            }
+        }
+        return randomSpawnPos;
+    }
 
 
     public override void Initialize()
     {
         agentBodyRB = GetComponent<Rigidbody>();
-        targetRB = target.GetComponent<Rigidbody>();
         areaBounds = ground.GetComponent<Collider>().bounds;
-
+        areaBoundsObject = ObjectSpawn.GetComponent<Collider>().bounds;
+        
         defaultParams = Academy.Instance.EnvironmentParameters;
         Debug.Log("Initial");
     }
@@ -70,7 +90,11 @@ public class AgentScript : Agent
     //Observations needed by agent:
     //Position of the object
     //Position of the agent
-
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        sensor.AddObservation(target.transform.localPosition);
+        sensor.AddObservation(transform.localPosition);
+    }
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         MoveAgent(actionBuffers.DiscreteActions);
@@ -150,10 +174,10 @@ public class AgentScript : Agent
         agent.transform.rotation = agent.transform.rotation * Quaternion.Euler(0, 0, 0);
 
         //start position
-        agent.transform.localPosition = GetRandomSpawnPos();
+        agent.transform.localPosition = new Vector3(-5.85f, 1.072695f, -1.39f);
 
         //Move target to new position
-        target.transform.localPosition = GetRandomSpawnPos();
+        target.transform.localPosition = new Vector3(10.64f, 1.797695f, -2.31f);
     }
 
 
