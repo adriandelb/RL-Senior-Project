@@ -47,7 +47,7 @@ public class AgentScript : Agent
 
             var randomPosZ = Random.Range(-areaBounds.extents.z * Random.Range(0.1f, 0.9f),
                 areaBounds.extents.z * Random.Range(0.1f, 0.9f));
-            randomSpawnPos = ground.transform.position + new Vector3(randomPosX , 1.35f, randomPosZ);
+            randomSpawnPos = ground.transform.localPosition + new Vector3(randomPosX , 1.35f, randomPosZ);
             if (Physics.CheckBox(randomSpawnPos, new Vector3(2.5f, 0.01f, 2.5f)) == false)
             {
                 foundNewSpawnLocation = true;
@@ -83,11 +83,6 @@ public class AgentScript : Agent
             AddReward(-1f);
             EndEpisode();
         }
-    }
-
-    private void checkPosition()
-    {
-        Debug.DrawRay(transform.position, (ground.transform.position - transform.position), Color.red, 5f);   
     }
     public void MoveAgent(ActionSegment<int> act)
     {
@@ -155,10 +150,10 @@ public class AgentScript : Agent
         agent.transform.rotation = agent.transform.rotation * Quaternion.Euler(0, 0, 0);
 
         //start position
-        agent.transform.localPosition = new Vector3(-7, 0.625f, 0);
+        agent.transform.localPosition = GetRandomSpawnPos();
 
         //Move target to new position
-        target.transform.localPosition = new Vector3(6.43f, 1.35f, 0);
+        target.transform.localPosition = GetRandomSpawnPos();
     }
 
 
