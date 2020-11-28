@@ -26,10 +26,8 @@ public class AgentScriptP1 : Agent
     {
         // We use a reward of 5.
         AddReward(5f);
-
         // By marking an agent as done AgentReset() will be called automatically.
         EndEpisode();
-
         Debug.Log("Agent touched block");
     }
 
@@ -153,12 +151,12 @@ public class AgentScriptP1 : Agent
         //velocity of agent
         agentBodyRB.velocity = Vector3.zero;
         agentBodyRB.angularVelocity = Vector3.zero;
-        agent.transform.rotation = agent.transform.rotation * Quaternion.Euler(0, 0, 0);
+ 
 
         //start position
-        agent.transform.localPosition = new Vector3(-5.85f, 1.1f, -1.39f);
+        agent.transform.localPosition = GetRandomSpawnPos();
 
         //Move target to new position
-        target.transform.localPosition = new Vector3(10.64f, 1.8f, -2.31f);
+        target.transform.localPosition = GetRandomSpawnPos();
     }
 }
