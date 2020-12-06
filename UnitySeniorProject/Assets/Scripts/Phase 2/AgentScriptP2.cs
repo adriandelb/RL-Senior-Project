@@ -63,7 +63,15 @@ public class AgentScriptP2 : Agent
         return randomSpawnPos;
     }
     
-   
+    public Vector3 randomWallLane(GameObject Obj)
+    {
+        var spawn = Vector3.zero;
+        var z = Random.Range(-7, 4);
+        var y = Obj.transform.localPosition.y;
+        var x = Obj.transform.localPosition.x;
+        spawn = new Vector3(x, y, z);
+        return spawn; 
+    }
     public void SpawnWalls()
     {
        
@@ -71,7 +79,7 @@ public class AgentScriptP2 : Agent
         for (int i = 0; i < sizeOfList; i++)
         {
             currentWall = Walls[i];
-            currentWall.transform.localPosition = GetRandomSpawnPos(currentWall);
+            currentWall.transform.localPosition = randomWallLane(currentWall);
         }  
     }
 
@@ -101,6 +109,21 @@ public class AgentScriptP2 : Agent
         MoveAgent(actionBuffers.DiscreteActions);
         AddReward(-1f / MaxStep);
         Debug.Log("Action Received");
+    }
+
+    void OnCollisionStay(Collision collision)
+    {
+        //Reduce reward when it starys touching a wall
+        if (collision.gameObject.CompareTag( "Wall"))
+        {
+            AddReward(-0.01f);
+            Debug.Log("Hit wall");
+        }
+
+        if (collision.gameObject.CompareTag("Target"))
+        {
+            HitObject();
+        }
     }
 
     void FixedUpdate()
@@ -184,12 +207,13 @@ public class AgentScriptP2 : Agent
 
         Debug.Log("Ground Area" + ground.transform.localPosition);
         SpawnWalls();
-        //wall1.transform.localPosition = GetRandomSpawnPos();
+
         //start position
         agent.transform.localPosition = GetRandomSpawnPos(agent);
-
+        //agent.transform.localPosition = new Vector3(-5.85f, 1.072695f, -1.39f);
         //Move target to new position
         target.transform.localPosition = GetRandomSpawnPos(target);
-       
+
+        //target.transform.localPosition = new Vector3(10.64f, 1.797695f, -3.54f);
     }
 }
