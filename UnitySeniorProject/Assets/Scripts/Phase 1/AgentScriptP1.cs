@@ -157,5 +157,6 @@ public class AgentScriptP1 : Agent
 
         //Move target to new position
         target.transform.localPosition = GetRandomSpawnPos();
+
     }
 }
