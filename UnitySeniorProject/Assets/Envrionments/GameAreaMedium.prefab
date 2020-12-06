@@ -401,7 +401,7 @@ MonoBehaviour:
     VectorActionSize: 07000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: e89ddd010771ebf4d9e8e7a066600bcf, type: 3}
   m_InferenceDevice: 1
   m_BehaviorType: 0
   m_BehaviorName: AgentBehavior
@@ -428,7 +428,6 @@ MonoBehaviour:
   target: {fileID: 5556839199536343351}
   ground: {fileID: 5556839201182780415}
   agent: {fileID: 5556839200014149385}
-  wall1: {fileID: 3815590505448417760}
   Walls:
   - {fileID: 3815590505448417760}
   - {fileID: 8713557990414669571}
