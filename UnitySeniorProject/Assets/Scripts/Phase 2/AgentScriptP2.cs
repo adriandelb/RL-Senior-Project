@@ -128,7 +128,7 @@ public class AgentScriptP2 : Agent
 
     void FixedUpdate()
     {
-        if (transform.position.y < 0)
+        if (transform.position.y < 0.95)
         {
             Debug.Log("Fell");
             AddReward(-1f);
