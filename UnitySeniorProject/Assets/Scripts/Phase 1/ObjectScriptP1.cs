@@ -13,4 +13,13 @@ public class ObjectScriptP1 : MonoBehaviour
             agent.HitObject();
         }
     }
+
+    void OnCollisionStay(Collision collision)
+    {
+        //Check to see if the Collider's name is "Chest"
+        if (collision.collider.name == "Agent")
+        {
+            agent.HitObject();
+        }
+    }
 }

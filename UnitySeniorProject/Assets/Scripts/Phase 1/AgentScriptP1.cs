@@ -81,7 +81,7 @@ public class AgentScriptP1 : Agent
 
     void FixedUpdate()
     {
-        if (transform.position.y < 0)
+        if (transform.localPosition.y < 1)
         {
             Debug.Log("Fell");
             AddReward(-1f);
@@ -151,12 +151,12 @@ public class AgentScriptP1 : Agent
         //velocity of agent
         agentBodyRB.velocity = Vector3.zero;
         agentBodyRB.angularVelocity = Vector3.zero;
- 
+        
 
         //start position
-        agent.transform.localPosition = GetRandomSpawnPos();
+        agent.transform.localPosition = new Vector3(-6, 1.072695f, -1.39f);
 
         //Move target to new position
-        target.transform.localPosition = GetRandomSpawnPos();
+        target.transform.localPosition = new Vector3(10.64f, 1.797695f, -1.39f);
     }
 }

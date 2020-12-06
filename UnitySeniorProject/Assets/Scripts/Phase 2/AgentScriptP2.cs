@@ -3,6 +3,7 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using System.Collections;
 using Unity.MLAgents.Actuators;
+using System.Collections.Generic;
 
 public class AgentScriptP2 : Agent
 {
@@ -15,12 +16,18 @@ public class AgentScriptP2 : Agent
     public GameObject ground;
     public GameObject agent;
 
+    public List <GameObject> Walls;
+    private int sizeOfList;
+    private GameObject currentWall;
+ 
+
     [HideInInspector]
     public Bounds areaBounds;
     PushBlockSettings m_PushBlockSettings;
 
     //Academy
     EnvironmentParameters defaultParams;
+
 
     public void HitObject()
     {
@@ -33,9 +40,10 @@ public class AgentScriptP2 : Agent
         Debug.Log("Agent touched block");
     }
 
-
-    public Vector3 GetRandomSpawnPos()
+    private Bounds objbounds;
+    public Vector3 GetRandomSpawnPos(GameObject obj)
     {
+        objbounds = obj.GetComponent<Collider>().bounds;
         var foundNewSpawnLocation = false;
         var randomSpawnPos = Vector3.zero;
         while (foundNewSpawnLocation == false)
@@ -46,13 +54,35 @@ public class AgentScriptP2 : Agent
             var randomPosZ = Random.Range(-areaBounds.extents.z * Random.Range(0.1f, 0.9f),
                 areaBounds.extents.z * Random.Range(0.1f, 0.9f));
             randomSpawnPos = ground.transform.localPosition + new Vector3(randomPosX, 1.35f, randomPosZ);
-            if (Physics.CheckBox(randomSpawnPos, new Vector3(2.5f, 0.01f, 2.5f)) == false)
+
+            if (Physics.CheckBox(randomSpawnPos,new Vector3(2.5f,0.1f,2.5f)) == false)
             {
                 foundNewSpawnLocation = true;
             }
         }
         return randomSpawnPos;
     }
+    
+    public Vector3 randomWallLane(GameObject Obj)
+    {
+        var spawn = Vector3.zero;
+        var z = Random.Range(-7, 4);
+        var y = Obj.transform.localPosition.y;
+        var x = Obj.transform.localPosition.x;
+        spawn = new Vector3(x, y, z);
+        return spawn; 
+    }
+    public void SpawnWalls()
+    {
+       
+        sizeOfList = Walls.Count;
+        for (int i = 0; i < sizeOfList; i++)
+        {
+            currentWall = Walls[i];
+            currentWall.transform.localPosition = randomWallLane(currentWall);
+        }  
+    }
+
 
 
     public override void Initialize()
@@ -81,12 +111,32 @@ public class AgentScriptP2 : Agent
         Debug.Log("Action Received");
     }
 
+    void OnCollisionStay(Collision collision)
+    {
+        //Reduce reward when it starys touching a wall
+        if (collision.gameObject.CompareTag( "Wall"))
+        {
+            AddReward(-0.01f);
+            Debug.Log("Hit wall");
+        }
+
+        if (collision.gameObject.CompareTag("Target"))
+        {
+            HitObject();
+        }
+    }
+
     void FixedUpdate()
     {
         if (transform.position.y < 0)
         {
             Debug.Log("Fell");
             AddReward(-1f);
+            EndEpisode();
+        }
+
+        if (target.transform.position.y > 4 || transform.position.y > 3)
+        {
             EndEpisode();
         }
     }
@@ -150,15 +200,20 @@ public class AgentScriptP2 : Agent
     {
         Debug.Log("Entered Episode");
         //reset the agent
-        //velocity of agent
+        //velocity of agents
         agentBodyRB.velocity = Vector3.zero;
         agentBodyRB.angularVelocity = Vector3.zero;
-        agent.transform.rotation = agent.transform.rotation * Quaternion.Euler(0, 0, 0);
+
+
+        Debug.Log("Ground Area" + ground.transform.localPosition);
+        SpawnWalls();
 
         //start position
-        agent.transform.localPosition = new Vector3(-5.85f, 1.1f, -1.39f);
-
+        agent.transform.localPosition = GetRandomSpawnPos(agent);
+        //agent.transform.localPosition = new Vector3(-5.85f, 1.072695f, -1.39f);
         //Move target to new position
-        target.transform.localPosition = new Vector3(10.64f, 1.8f, -2.31f);
+        target.transform.localPosition = GetRandomSpawnPos(target);
+
+        //target.transform.localPosition = new Vector3(10.64f, 1.797695f, -3.54f);
     }
 }
