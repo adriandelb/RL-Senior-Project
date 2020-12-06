@@ -1,0 +1,3 @@
+model_checkpoint_path: "AgentBehavior-500100.ckpt"
+all_model_checkpoint_paths: "AgentBehavior-499999.ckpt"
+all_model_checkpoint_paths: "AgentBehavior-500100.ckpt"

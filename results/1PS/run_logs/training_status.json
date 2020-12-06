@@ -1,0 +1,41 @@
+{
+    "PushBlock": {
+        "checkpoints": [
+            {
+                "steps": 499979,
+                "file_path": "results\\1PS\\PushBlock\\PushBlock-499979.nn",
+                "reward": 0.9091332107782364,
+                "creation_time": 1606099996.16514
+            },
+            {
+                "steps": 999990,
+                "file_path": "results\\1PS\\PushBlock\\PushBlock-999990.nn",
+                "reward": 4.895815445253482,
+                "creation_time": 1606100534.5319643
+            },
+            {
+                "steps": 1499992,
+                "file_path": "results\\1PS\\PushBlock\\PushBlock-1499992.nn",
+                "reward": 4.935355627702342,
+                "creation_time": 1606101092.5815291
+            },
+            {
+                "steps": 1791779,
+                "file_path": "results\\1PS\\PushBlock\\PushBlock-1791779.nn",
+                "reward": 4.936524983029813,
+                "creation_time": 1606101461.3197393
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1791779,
+            "file_path": "results\\1PS\\PushBlock.nn",
+            "reward": 4.936524983029813,
+            "creation_time": 1606101461.3197393
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.1.0",
+        "mlagents_version": "0.20.0",
+        "tensorflow_version": "2.3.0"
+    }
+}

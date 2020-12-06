@@ -1,0 +1,23 @@
+{
+    "AgentBehavior": {
+        "checkpoints": [
+            {
+                "steps": 439869,
+                "file_path": "results\\SErun2\\AgentBehavior\\AgentBehavior-439869.nn",
+                "reward": 4.945958123011015,
+                "creation_time": 1606622593.5904737
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 439869,
+            "file_path": "results\\SErun2\\AgentBehavior.nn",
+            "reward": 4.945958123011015,
+            "creation_time": 1606622593.5904737
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.1.0",
+        "mlagents_version": "0.20.0",
+        "tensorflow_version": "2.3.0"
+    }
+}

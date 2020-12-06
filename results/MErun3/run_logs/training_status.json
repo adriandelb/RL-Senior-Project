@@ -1,0 +1,29 @@
+{
+    "AgentBehavior": {
+        "checkpoints": [
+            {
+                "steps": 499962,
+                "file_path": "results\\MErun3\\AgentBehavior\\AgentBehavior-499962.nn",
+                "reward": 4.182482584956146,
+                "creation_time": 1607214899.4821427
+            },
+            {
+                "steps": 500098,
+                "file_path": "results\\MErun3\\AgentBehavior\\AgentBehavior-500098.nn",
+                "reward": 4.204572355059477,
+                "creation_time": 1607214899.7510674
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 500098,
+            "file_path": "results\\MErun3\\AgentBehavior.nn",
+            "reward": 4.204572355059477,
+            "creation_time": 1607214899.7510674
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.1.0",
+        "mlagents_version": "0.20.0",
+        "tensorflow_version": "2.3.0"
+    }
+}

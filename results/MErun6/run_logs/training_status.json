@@ -1,0 +1,35 @@
+{
+    "AgentBehavior2.0": {
+        "checkpoints": [
+            {
+                "steps": 499966,
+                "file_path": "results\\MErun6\\AgentBehavior2.0\\AgentBehavior2.0-499966.nn",
+                "reward": 3.8417556120289698,
+                "creation_time": 1607224401.2865255
+            },
+            {
+                "steps": 999983,
+                "file_path": "results\\MErun6\\AgentBehavior2.0\\AgentBehavior2.0-999983.nn",
+                "reward": null,
+                "creation_time": 1607225938.9850507
+            },
+            {
+                "steps": 1000004,
+                "file_path": "results\\MErun6\\AgentBehavior2.0\\AgentBehavior2.0-1000004.nn",
+                "reward": 4.8896002769470215,
+                "creation_time": 1607225939.275209
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1000004,
+            "file_path": "results\\MErun6\\AgentBehavior2.0.nn",
+            "reward": 4.8896002769470215,
+            "creation_time": 1607225939.275209
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.1.0",
+        "mlagents_version": "0.20.0",
+        "tensorflow_version": "2.3.0"
+    }
+}
