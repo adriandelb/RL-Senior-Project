@@ -1,0 +1,23 @@
+{
+    "SimpleEnvironment1.0": {
+        "checkpoints": [
+            {
+                "steps": 422468,
+                "file_path": "results\\SErun5\\SimpleEnvironment1.0\\SimpleEnvironment1.0-422468.nn",
+                "reward": 4.992213841142325,
+                "creation_time": 1607240865.5777023
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 422468,
+            "file_path": "results\\SErun5\\SimpleEnvironment1.0.nn",
+            "reward": 4.992213841142325,
+            "creation_time": 1607240865.5777023
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.1.0",
+        "mlagents_version": "0.20.0",
+        "tensorflow_version": "2.3.0"
+    }
+}

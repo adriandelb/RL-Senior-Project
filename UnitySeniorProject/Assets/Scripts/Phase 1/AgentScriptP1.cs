@@ -63,13 +63,12 @@ public class AgentScriptP1 : Agent
         Debug.Log("Initial");
     }
 
-    //Observations needed by agent:
-    //Position of the object
-    //Position of the agent
-    public override void CollectObservations(VectorSensor sensor)
+    void OnCollisionStay(Collision collision)
     {
-        sensor.AddObservation(target.transform.localPosition);
-        sensor.AddObservation(transform.localPosition);
+        if (collision.gameObject.CompareTag("Target"))
+        {
+            HitObject();
+        }
     }
 
     public override void OnActionReceived(ActionBuffers actionBuffers)
@@ -151,12 +150,12 @@ public class AgentScriptP1 : Agent
         //velocity of agent
         agentBodyRB.velocity = Vector3.zero;
         agentBodyRB.angularVelocity = Vector3.zero;
-        
+
 
         //start position
-        agent.transform.localPosition = new Vector3(-6, 1.072695f, -1.39f);
+        agent.transform.localPosition = GetRandomSpawnPos();
 
         //Move target to new position
-        target.transform.localPosition = new Vector3(10.64f, 1.797695f, -1.39f);
+        target.transform.localPosition = GetRandomSpawnPos();
     }
 }
